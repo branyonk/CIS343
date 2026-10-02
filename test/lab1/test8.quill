@@ -1,0 +1,5 @@
+let letter = 0;
+let book2 = 3.14;
+let _score = 100;
+show "";
+show "hello world";

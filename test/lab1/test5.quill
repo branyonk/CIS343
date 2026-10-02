@@ -1,0 +1,8 @@
+show "hello";
+
+# This is a comment and should be ignored
+show "The Hunger Games";
+
+let author = "Suzanne Collins";
+# Another comment
+show author;
