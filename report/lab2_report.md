@@ -5,9 +5,10 @@
 
 For this lab, I created an Abstract Syntax Tree (AST) and an AST printer for my programming language, Quill. The AST stores different types of expressions, and the printer turns them into strings.
 
+
 ## 2. Expression Grammar
 
-This is the expression grammar I used for Lab 2:
+This is the expression grammar I used for Quill in Lab 2:
 
     expression → equality ;
     equality → comparison ( ( "==" | "!=" ) comparison )* ;
@@ -17,7 +18,13 @@ This is the expression grammar I used for Lab 2:
     unary → ( "!" | "-" ) unary | primary ;
     primary → NUMBER | STRING | "yes" | "no" | "(" expression ")" ;
 
-The grammar separates expressions based on the order of operations. For example, multiplication has higher precedence than addition.
+Quill supports arithmetic operators (+, -, *, /), comparison operators (>, >=, <, <=), equality operators (==, !=), and unary operators (!, -).
+
+The literal types are numbers, strings, and Boolean values (`yes` and `no`). Parentheses can also be used to group expressions.
+
+The grammar follows the order of operations. For example, multiplication and division happen before addition and subtraction. Parentheses can be used to change the order of operations.
+
+For this lab, I focused on the expression types supported by my AST classes.
 
 ## 3. Differences From Lox
 
