@@ -1,4 +1,4 @@
-from token import Token
+from quill_token import Token
 from token_type import TokenType
 
 
@@ -82,8 +82,7 @@ class Scanner:
 
         # The string never had a closing quotation mark
         if self.at_end():
-            print(f"Error on line {self.line}: Unterminated string.")
-            return
+            raise SyntaxError(f"Line {self.line}: Unterminated string.")
 
         # Move past the closing quotation mark
         self.advance()
@@ -92,21 +91,18 @@ class Scanner:
         value = self.source[self.start + 1:self.current - 1]
         self.add_token_with_value(TokenType.STRING, value)
 
+
     def number(self):
         """Scan a whole number or decimal number."""
         while not self.at_end() and self.source[self.current].isdigit():
             self.advance()
-
-        # Check for a decimal point followed by another digit
         if not self.at_end() and self.source[self.current] == ".":
-            if (self.current + 1 < len(self.source)
-                    and self.source[self.current + 1].isdigit()):
-
+            if (self.current + 1 >= len(self.source)
+                    or not self.source[self.current + 1].isdigit()):
+                raise SyntaxError(f"Line {self.line}: Invalid decimal number.")
+            self.advance()
+            while not self.at_end() and self.source[self.current].isdigit():
                 self.advance()
-
-                while not self.at_end() and self.source[self.current].isdigit():
-                    self.advance()
-
         value = float(self.source[self.start:self.current])
         self.add_token_with_value(TokenType.NUMBER, value)
 
@@ -199,4 +195,4 @@ class Scanner:
 
         # Anything else is not valid in Quill
         else:
-            print(f"Error on line {self.line}: Unexpected character: {character}")
+            raise SyntaxError(f"Line {self.line}: Unexpected character '{character}'.")

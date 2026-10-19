@@ -1,13 +1,20 @@
 import sys
 from scanner import Scanner
+from parser import Parser
+from printer import AstPrinter
+
 
 def run(source):
-    """Scan the source code and print each token."""
-    scanner = Scanner(source)
-    tokens = scanner.scan_tokens()
-    for token in tokens:
-        print(f"{token.token_type} {token.lexeme} {token.literal}")
-
+    """Scan, parse, and print the source code."""
+    try:
+        scanner = Scanner(source)
+        tokens = scanner.scan_tokens()
+        parser = Parser(tokens)
+        expression = parser.parse()
+        printer = AstPrinter()
+        print(printer.to_string(expression))
+    except SyntaxError as error:
+        print(f"Syntax Error: {error}")
 
 def run_file(path):
     """Read and scan Quill code from a source file."""
